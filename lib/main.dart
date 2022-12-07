@@ -1,35 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:notes_app/DataBase/database.dart';
-import 'package:notes_app/DataBase/note.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:notes_app/screens/notes_screen.dart';
 
-void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
-  MyDataBase myDataBase = MyDataBase();
-  //Database db = await  myDataBase.initialDataBase();
-  myDataBase.insertNote(Note(title: "kj", body: "bla bla bla",id: 3));
-  List<Note> notes = await myDataBase.notes();
-  for(Note note in notes){
-    print(note.title);
-  }
-  print(notes.length);
+void main() async {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'NOTES',
       theme: ThemeData(
-
-        primarySwatch: Colors.blue,
+        brightness: Brightness.dark,
+        primarySwatch: Colors.purple,
+        floatingActionButtonTheme:const FloatingActionButtonThemeData(
+          backgroundColor: Color(0xff252525),
+          foregroundColor: Colors.white
+        ),
+        textTheme:const TextTheme(
+          headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+          headline6: TextStyle(fontSize: 43.0, fontWeight: FontWeight.w600),
+          bodyText2: TextStyle(fontSize: 25, fontFamily: 'Nunito',fontWeight: FontWeight.w400,color: Colors.black),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 10.0),
+        ),
+        useMaterial3: true,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        )
       ),
-      home:Scaffold(body: Container(),),
+      home:const NotesScreen()
     );
   }
+
 }
