@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'NOTES',
       theme: ThemeData(
         brightness: Brightness.dark,
-        primarySwatch: Colors.purple,
+        primarySwatch: Colors.teal,
         floatingActionButtonTheme:const FloatingActionButtonThemeData(
           backgroundColor: Color(0xff252525),
           foregroundColor: Colors.white
@@ -24,17 +24,17 @@ class MyApp extends StatelessWidget {
         textTheme:const TextTheme(
           headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
           headline6: TextStyle(fontSize: 43.0, fontWeight: FontWeight.w600),
-          bodyText2: TextStyle(fontSize: 25, fontFamily: 'Nunito',fontWeight: FontWeight.w400,color: Colors.black),
+          bodyText2: TextStyle(fontSize: 25, fontFamily: 'Nunito',fontWeight: FontWeight.w400,color: Colors.white),
         ),
-        inputDecorationTheme: InputDecorationTheme(
+        inputDecorationTheme:const InputDecorationTheme(
           border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 10.0),
+          contentPadding: EdgeInsets.symmetric(vertical: 25.0, horizontal: 10.0),
         ),
         useMaterial3: true,
-        appBarTheme: AppBarTheme(
+        appBarTheme:const AppBarTheme(
           backgroundColor: Colors.transparent,
           elevation: 0,
-        )
+        ),
       ),
       home:const NotesScreen()
     );

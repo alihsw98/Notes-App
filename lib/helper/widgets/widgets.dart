@@ -11,3 +11,12 @@ Container deleteNoteCard = Container(
   )
   ),
 );
+
+
+Column emptyScreen = Column(
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
+    Image.asset("assets/images/empty.png"),
+    const Text("Create your first note !",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w300),)
+  ],
+);

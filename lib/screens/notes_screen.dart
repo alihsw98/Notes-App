@@ -1,6 +1,9 @@
+import 'dart:math';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter/material.dart';
 import 'package:notes_app/DataBase/database.dart';
 import 'package:notes_app/DataBase/note.dart';
+import 'package:notes_app/helper/widgets/widgets.dart';
 import 'package:notes_app/screens/create_note_screen.dart';
 import 'package:notes_app/screens/note_details_screen.dart';
 
@@ -14,8 +17,17 @@ class NotesScreen extends StatefulWidget {
 class _NotesScreenState extends State<NotesScreen> {
   bool isTtyDelete = false;
 
+  List<String?>? colors = [
+    'FF9E9E',
+    '91F48F',
+    'FFF599',
+    '9EFFFF',
+    'B69CFF'
+  ];
+
   @override
   void initState() {
+    super.initState();
     setState(() {});
   }
 
@@ -25,10 +37,30 @@ class _NotesScreenState extends State<NotesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Notes'),
+        title:const Text('Notes'),
         actions: [
-          Icon(Icons.search),
-          Icon(Icons.info_outline),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+                padding:const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color:const Color(0xff3B3B3B),
+                borderRadius: BorderRadius.circular(12)
+              ),
+                child:const Icon(Icons.search)
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              padding:const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  color:const Color(0xff3B3B3B),
+                  borderRadius: BorderRadius.circular(12)
+              ),
+              child:const Icon(Icons.info_outline),
+            ),
+          ),
         ],
       ),
       body: RefreshIndicator(
@@ -98,19 +130,38 @@ class _NotesScreenState extends State<NotesScreen> {
                           title: notes[index].title, body: notes[index].body);
                     }));
                   },
-                  child: Container(
-                    width: 365,
-                    height: 123,
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 16, horizontal: 20),
-                    decoration: BoxDecoration(
-                        color: Colors.amber,
-                        borderRadius: BorderRadius.circular(16)),
-                    child: Text(notes[index].title!),
+                  child: Slidable(
+                    key: const ValueKey(0),
+                    endActionPane:  ActionPane(
+                      motion: const ScrollMotion(),
+                      children: [
+                        SlidableAction(
+                          onPressed: (_)async{
+                            await myDataBase.deleteNote(notes[index]);
+                            setState(() {
+                            });
+                          },
+                          backgroundColor:const  Color(0xFFFE4A49),
+                          foregroundColor: Colors.white,
+                          icon: Icons.delete,
+                          label: 'Delete',
+                        ),
+                      ],
+                    ),
+                    child:  Container(
+                      width: 365,
+                      height: 123,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 20),
+                      decoration: BoxDecoration(
+                          color:Color(int.parse('0xFF${colors![Random().nextInt(colors!.length)]}')),
+                          borderRadius: BorderRadius.circular(16)),
+                      child: Text(notes[index].title!,style: const TextStyle(fontWeight: FontWeight.w400,fontSize: 25,color: Colors.black),),
+                    ),
                   ),
                 ),
               );
             })
-        : const CircularProgressIndicator();
+        :  emptyScreen;
   }
 }

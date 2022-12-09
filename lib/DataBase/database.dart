@@ -10,7 +10,7 @@ class MyDataBase {
       join(await getDatabasesPath(),'notes.db'),
       onCreate: (db, version) {
         return db.execute(
-          'CREATE TABLE notes(id INTEGER PRIMARY KEY, title TEXT, body TEXT)',
+          'CREATE TABLE notes(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, title TEXT, body TEXT, color TEXT)',
         );
       },
       version: 1
@@ -38,5 +38,18 @@ class MyDataBase {
         body: maps[i]['body'],
       );
     });
+  }
+
+  Future<void> deleteNote(Note note) async {
+    Database db = await initialDataBase();
+
+    // Remove the Dog from the database.
+    await db.delete(
+      'notes',
+      // Use a `where` clause to delete a specific dog.
+      where: 'id = ?',
+      // Pass the Dog's id as a whereArg to prevent SQL injection.
+      whereArgs: [note.id],
+    );
   }
 }
