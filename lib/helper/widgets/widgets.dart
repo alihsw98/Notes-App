@@ -20,3 +20,11 @@ Column emptyScreen = Column(
     const Text("Create your first note !",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w300),)
   ],
 );
+
+Column noResult = Column(
+  mainAxisAlignment: MainAxisAlignment.start,
+  children: [
+    Image.asset("assets/images/no_result.png"),
+    const Text("Note not found. Try searching again.",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w300),)
+  ],
+);

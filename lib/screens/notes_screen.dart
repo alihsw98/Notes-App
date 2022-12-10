@@ -6,6 +6,7 @@ import 'package:notes_app/DataBase/note.dart';
 import 'package:notes_app/helper/widgets/widgets.dart';
 import 'package:notes_app/screens/create_note_screen.dart';
 import 'package:notes_app/screens/note_details_screen.dart';
+import 'package:notes_app/screens/search_screen.dart';
 
 class NotesScreen extends StatefulWidget {
   const NotesScreen({Key? key}) : super(key: key);
@@ -39,15 +40,27 @@ class _NotesScreenState extends State<NotesScreen> {
       appBar: AppBar(
         title:const Text('Notes'),
         actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-                padding:const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color:const Color(0xff3B3B3B),
-                borderRadius: BorderRadius.circular(12)
+          GestureDetector(
+            onTap: (){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context){
+                        return const SearchScreen();
+                      }
+                  )
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                  padding:const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color:const Color(0xff3B3B3B),
+                  borderRadius: BorderRadius.circular(12)
+                ),
+                  child:const Icon(Icons.search)
               ),
-                child:const Icon(Icons.search)
             ),
           ),
           Padding(

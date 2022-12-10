@@ -52,4 +52,18 @@ class MyDataBase {
       whereArgs: [note.id],
     );
   }
+
+  getNoteByTitle(String title) async {
+    Database db = await initialDataBase();
+    // raw query
+    List<Map> maps = await db.rawQuery('SELECT * FROM notes WHERE title=?', [title]);
+
+    return List.generate(maps.length, (i) {
+      return Note(
+        id: maps[i]['id'],
+        title: maps[i]['title'],
+        body: maps[i]['body'],
+      );
+    });
+  }
 }
