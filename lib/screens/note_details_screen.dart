@@ -1,17 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:notes_app/helper/colors.dart';
+import 'package:notes_app/DataBase/database.dart';
+import 'package:notes_app/DataBase/note.dart';
+import 'package:notes_app/screens/update_note_screen.dart';
 
 class NoteDetailScreen extends StatefulWidget {
-  final String? title;
-  final String? body;
+   final int? id;
+   final String? title;
+   final String? body;
 
-  const NoteDetailScreen({super.key, required this.title, required this.body});
+   const NoteDetailScreen({super.key, required this.title, required this.body,required this.id});
 
   @override
   State<NoteDetailScreen> createState() => _NoteDetailScreenState();
 }
 
 class _NoteDetailScreenState extends State<NoteDetailScreen> {
+  MyDataBase myDataBase = MyDataBase();
+  late String title;
+  late String body;
+
+  @override
+  void initState() {
+    title = widget.title!;
+    body = widget.body!;
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +47,16 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
         ),
         actions: [
           GestureDetector(
-            onTap: () {},
+            onTap: ()  async{
+              final Note data = await Navigator.push(context,
+                  MaterialPageRoute(builder: (context){
+                  return  UpdateNoteScreen(id: widget.id!,title: widget.title!,body: widget.body!,);
+                }));
+              setState(() {
+                title = data.title!;
+               body = data.body!;
+              });
+            },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -50,17 +74,17 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
       body: Column(
         children: [
           Container(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             width: double.infinity,
               child: Text(
-            widget.title!,
+            title,
             style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 35),
           )),
-          SizedBox(height: 20,),
+          const SizedBox(height: 20,),
           Container(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             width: double.infinity,
-            child: Text(widget.body!,
+            child: Text(body,
                 style: const TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 23,

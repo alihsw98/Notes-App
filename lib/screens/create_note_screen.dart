@@ -170,10 +170,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
                   GestureDetector(
                     onTap: () async {
                       MyDataBase myDataBase = MyDataBase();
-                      await myDataBase.insertNote(Note(
-                          id: Random().nextInt(100000),
-                          body: bodyController.text,
-                          title: titleController.text));
+                      await myDataBase.addNote(titleController.text, bodyController.text);
                       Navigator.pop(context);
                     },
                     child: Container(

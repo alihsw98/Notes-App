@@ -18,14 +18,12 @@ class MyDataBase {
     return database;
   }
 
-  Future<void> insertNote(Note note) async {
+
+  Future<void> addNote(String title,String body) async {
     Database db = await initialDataBase();
-    await db.insert(
-      'notes',
-      note.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    db.rawInsert('INSERT INTO notes(title, body) VALUES(?, ?)', [title, body]);
   }
+
 
   Future<List<Note>> notes() async {
     Database db = await initialDataBase();
@@ -65,5 +63,35 @@ class MyDataBase {
         body: maps[i]['body'],
       );
     });
+  }
+  getNoteById(int id) async {
+    Database db = await initialDataBase();
+    // raw query
+    List<Map> maps = await db.rawQuery('SELECT * FROM notes WHERE id=?', [id]);
+
+    return List.generate(maps.length, (i) {
+      return Note(
+        id: maps[i]['id'],
+        title: maps[i]['title'],
+        body: maps[i]['body'],
+      );
+    });
+  }
+
+  updateNote(int id,String title, String body) async {
+
+    Database db = await initialDataBase();
+
+    // row to update
+    Map<String, dynamic> row = {
+      'title' : title,
+      'body'  : body
+    };
+
+    await db.update(
+        'notes',
+        row,
+        where: 'id = ?',
+        whereArgs: [id]);
   }
 }

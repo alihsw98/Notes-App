@@ -140,7 +140,7 @@ class _NotesScreenState extends State<NotesScreen> {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                       return NoteDetailScreen(
-                          title: notes[index].title, body: notes[index].body);
+                          title: notes[index].title, body: notes[index].body,id: notes[index].id,);
                     }));
                   },
                   child: Slidable(
