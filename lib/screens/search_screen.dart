@@ -1,10 +1,8 @@
-import 'dart:math';
+import 'package:Notes/DataBase/database.dart';
+import 'package:Notes/DataBase/note.dart';
+import 'package:Notes/helper/widgets/widgets.dart';
+import 'package:Notes/screens/note_details_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:notes_app/DataBase/database.dart';
-import 'package:notes_app/DataBase/note.dart';
-import 'package:notes_app/helper/widgets/widgets.dart';
-import 'package:notes_app/screens/note_details_screen.dart';
-
 
 
 class SearchScreen extends StatefulWidget {
@@ -20,19 +18,9 @@ class _SearchScreenState extends State<SearchScreen> {
   List<Note> notes = [];
   MyDataBase myDataBase = MyDataBase();
 
-
-  List<String?>? colors = [
-    'FF9E9E',
-    '91F48F',
-    'FFF599',
-    '9EFFFF',
-    'B69CFF'
-  ];
-
   @override
   void initState() {
     getNotes();
-    notes.forEach((element) {print(element.title);});
     super.initState();
   }
   Future<void> getNotes()async{
@@ -86,7 +74,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         context,
                         MaterialPageRoute(
                             builder: (context){
-                              return NoteDetailScreen(title: searchResult[index].title, body: searchResult[index].body, id: searchResult[index].id);
+                              return NoteDetailScreen(title: searchResult[index].title, body: searchResult[index].body, id: searchResult[index].id,color: searchResult[index].color,);
                             }
                         )
                     );
@@ -97,7 +85,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 16, horizontal: 20),
                     decoration: BoxDecoration(
-                        color:Color(int.parse('0xFF${colors![Random().nextInt(colors!.length)]}')),
+                        color:Color(int.parse('0xFF${searchResult[index].color}')),
                         borderRadius: BorderRadius.circular(16)),
                     child: Text(searchResult[index].title!,style: const TextStyle(fontWeight: FontWeight.w400,fontSize: 25,color: Colors.black),),
                   ),

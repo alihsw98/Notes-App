@@ -1,7 +1,6 @@
+import 'package:Notes/DataBase/database.dart';
 import 'package:flutter/material.dart';
-import 'package:notes_app/DataBase/database.dart';
 import 'package:lottie/lottie.dart';
-
 import '../DataBase/note.dart';
 
 
@@ -9,8 +8,9 @@ class UpdateNoteScreen extends StatefulWidget {
   final int? id;
   final String? title;
   final String? body;
+  final String? color;
 
-  const UpdateNoteScreen({required this.id, required this.title,required this.body,Key? key}) : super(key: key);
+  const UpdateNoteScreen({required this.id, required this.title,required this.body,required this.color,Key? key}) : super(key: key);
 
   @override
   State<UpdateNoteScreen> createState() => _UpdateNoteScreenState();
@@ -32,7 +32,7 @@ class _UpdateNoteScreenState extends State<UpdateNoteScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
-          onTap: () => Navigator.pop(context,Note(id: widget.id,title: titleController.text,body: bodyController.text)),
+          onTap: () => Navigator.pop(context,Note(id: widget.id,title: titleController.text,body: bodyController.text,color: widget.color)),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(

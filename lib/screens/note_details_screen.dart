@@ -1,14 +1,16 @@
+import 'package:Notes/DataBase/note.dart';
+import 'package:Notes/screens/update_note_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:notes_app/DataBase/database.dart';
-import 'package:notes_app/DataBase/note.dart';
-import 'package:notes_app/screens/update_note_screen.dart';
+
+import '../DataBase/database.dart';
 
 class NoteDetailScreen extends StatefulWidget {
    final int? id;
    final String? title;
    final String? body;
+   final String? color;
 
-   const NoteDetailScreen({super.key, required this.title, required this.body,required this.id});
+   const NoteDetailScreen({super.key, required this.title, required this.body,required this.id,required this.color});
 
   @override
   State<NoteDetailScreen> createState() => _NoteDetailScreenState();
@@ -50,7 +52,7 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
             onTap: ()  async{
               final Note data = await Navigator.push(context,
                   MaterialPageRoute(builder: (context){
-                  return  UpdateNoteScreen(id: widget.id!,title: widget.title!,body: widget.body!,);
+                  return  UpdateNoteScreen(id: widget.id,title: widget.title,body: widget.body!,color: widget.color,);
                 }));
               setState(() {
                 title = data.title!;

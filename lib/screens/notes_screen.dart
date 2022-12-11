@@ -1,12 +1,11 @@
-import 'dart:math';
+import 'package:Notes/DataBase/database.dart';
+import 'package:Notes/DataBase/note.dart';
+import 'package:Notes/helper/widgets/widgets.dart';
+import 'package:Notes/screens/create_note_screen.dart';
+import 'package:Notes/screens/note_details_screen.dart';
+import 'package:Notes/screens/search_screen.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter/material.dart';
-import 'package:notes_app/DataBase/database.dart';
-import 'package:notes_app/DataBase/note.dart';
-import 'package:notes_app/helper/widgets/widgets.dart';
-import 'package:notes_app/screens/create_note_screen.dart';
-import 'package:notes_app/screens/note_details_screen.dart';
-import 'package:notes_app/screens/search_screen.dart';
 
 class NotesScreen extends StatefulWidget {
   const NotesScreen({Key? key}) : super(key: key);
@@ -16,25 +15,9 @@ class NotesScreen extends StatefulWidget {
 }
 
 class _NotesScreenState extends State<NotesScreen> {
-  bool isTtyDelete = false;
-
-  List<String?>? colors = [
-    'FF9E9E',
-    '91F48F',
-    'FFF599',
-    '9EFFFF',
-    'B69CFF'
-  ];
-
- @override
-  void initState() {
-    super.initState();
-    setState(() {
-
-    });
-  }
 
   MyDataBase myDataBase = MyDataBase();
+
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +131,7 @@ class _NotesScreenState extends State<NotesScreen> {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                       return NoteDetailScreen(
-                          title: notes[index].title, body: notes[index].body,id: notes[index].id,);
+                          title: notes[index].title, body: notes[index].body,id: notes[index].id,color: notes[index].color,);
                     }));
                   },
                   child: Slidable(
@@ -170,12 +153,11 @@ class _NotesScreenState extends State<NotesScreen> {
                       ],
                     ),
                     child:  Container(
-                      width: 365,
-                      height: 123,
+                      width: double.infinity,
                       padding: const EdgeInsets.symmetric(
-                          vertical: 16, horizontal: 20),
+                          vertical: 30, horizontal: 20),
                       decoration: BoxDecoration(
-                          color:Color(int.parse('0xFF${colors![Random().nextInt(colors!.length)]}')),
+                          color:Color(int.parse('0xFF'+notes[index].color!)),
                           borderRadius: BorderRadius.circular(16)),
                       child: Text(notes[index].title!,style: const TextStyle(fontWeight: FontWeight.w400,fontSize: 25,color: Colors.black),),
                     ),
@@ -186,3 +168,4 @@ class _NotesScreenState extends State<NotesScreen> {
         :  emptyScreen;
   }
 }
+

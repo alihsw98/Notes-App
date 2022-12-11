@@ -1,9 +1,6 @@
-import 'dart:math';
-
+import 'package:Notes/DataBase/database.dart';
+import 'package:Notes/helper/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:notes_app/DataBase/database.dart';
-import 'package:notes_app/DataBase/note.dart';
-import 'package:notes_app/helper/colors.dart';
 
 class CreateNoteScreen extends StatefulWidget {
   const CreateNoteScreen({Key? key}) : super(key: key);
@@ -15,7 +12,7 @@ class CreateNoteScreen extends StatefulWidget {
 class _CreateNoteScreenState extends State<CreateNoteScreen> {
   TextEditingController titleController = TextEditingController();
   TextEditingController bodyController = TextEditingController();
-  bool discard = false;
+  String color = '';
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +34,9 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
         ),
         actions: [
           GestureDetector(
-            onTap: () {},
+            onTap: ()async {
+              await choseColorDialog();
+            },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -46,7 +45,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
                       color:const Color(0xff3B3B3B),
                       borderRadius: BorderRadius.circular(12)
                   ),
-                  child:const Icon(Icons.remove_red_eye_outlined)
+                  child:const Icon(Icons.color_lens_rounded,color: Colors.purple,)
             ),
             ),
           ),
@@ -147,8 +146,8 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
-                    onTap: ()async{
-                      await _showConfirmDialog();
+                    onTap: (){
+                     Navigator.pop(context);
                     },
                     child: Container(
                       width: 112,
@@ -170,7 +169,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
                   GestureDetector(
                     onTap: () async {
                       MyDataBase myDataBase = MyDataBase();
-                      await myDataBase.addNote(titleController.text, bodyController.text);
+                      await myDataBase.addNote(titleController.text, bodyController.text,color);
                       Navigator.pop(context);
                     },
                     child: Container(
@@ -199,22 +198,17 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
     );
   }
 
-  Future<void> _showConfirmDialog() async {
+  Future<void> choseColorDialog() async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Icon(
-            Icons.info,
-            size: 36,
-            color: AppColors.grey200,
-          ),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
                 Center(
-                    child: Text( 'Are your sure you want discard your changes ?',
+                    child: Text( 'Chose background color',
                       style: TextStyle(
                           color: AppColors.grey300,
                           fontSize: 23,
@@ -226,55 +220,90 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
           actions: <Widget>[
             Center(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
                 children: [
                   GestureDetector(
                     onTap: () {
-                      titleController.clear();
-                      bodyController.clear();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const CreateNoteScreen()),
-                      );
-                    },
-                    child: Container(
-                      width: 112,
-                      height: 39,
-                      decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(8)),
-                      child: const Text(
-                        'Discard',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                            height: 2),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: ()  {
+                      setState(() {
+                        color = '91F48F';
+                      });
                       Navigator.pop(context);
                     },
                     child: Container(
-                      width: 112,
-                      height: 39,
-                      decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.circular(8)),
-                      child: const Text(
-                        'Keep',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                            height: 2),
-                        textAlign: TextAlign.center,
-                      ),
+                      width: 50,
+                      height: 50,
+                      decoration:const BoxDecoration(
+                          color: Color(0xFF91F48F),
+                          shape: BoxShape.circle,),
                     ),
                   ),
+                  const SizedBox(width: 1,),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        color = 'FF9E9E';
+                      });
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration:const BoxDecoration(
+                          color:  Color(0xFFFF9E9E),
+                        shape: BoxShape.circle),
+                    ),
+                  ),
+                  const SizedBox(width: 1,),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        color = 'FFF599';
+                      });
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration:const BoxDecoration(
+                          color:  Color(0xFFFFF599),
+                          shape: BoxShape.circle,
+                        ),
+                    ),
+                  ),
+                  const SizedBox(width: 1,),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        color = '9EFFFF';
+                      });
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration:const BoxDecoration(
+                          color: Color(0xFF9EFFFF),
+                          shape: BoxShape.circle,
+                          ),
+                    ),
+                  ),
+                  const SizedBox(width: 1,),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        color = 'B69CFF';
+                      });
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration:const BoxDecoration(
+                          color:  Color(0xFFB69CFF),
+                          shape: BoxShape.circle,),
+                    ),
+                  ),
+
                 ],
               ),
             )
