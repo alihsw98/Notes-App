@@ -1,10 +1,9 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:notes_app/DataBase/database.dart';
 import 'package:notes_app/DataBase/note.dart';
-import 'package:notes_app/helper/colors.dart';
 import 'package:notes_app/helper/widgets/widgets.dart';
+import 'package:notes_app/screens/note_details_screen.dart';
 
 
 
@@ -18,7 +17,9 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
   List<Note> searchResult = [];
+  List<Note> notes = [];
   MyDataBase myDataBase = MyDataBase();
+
 
   List<String?>? colors = [
     'FF9E9E',
@@ -27,6 +28,16 @@ class _SearchScreenState extends State<SearchScreen> {
     '9EFFFF',
     'B69CFF'
   ];
+
+  @override
+  void initState() {
+    getNotes();
+    notes.forEach((element) {print(element.title);});
+    super.initState();
+  }
+  Future<void> getNotes()async{
+    notes = await myDataBase.notes();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +61,12 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: const Icon(Icons.close,color: Colors.white,))
               ),
               maxLines: 1,
-              onChanged: (_) async{
-                searchResult = await myDataBase.getNoteByTitle(_searchController.text);
+              onChanged: (_) {
                 setState(() {
+                  searchResult = notes
+                      .where((element) =>
+                      element.title!.contains(_searchController.text))
+                      .toList();
                 });
               },
             ),
@@ -66,15 +80,27 @@ class _SearchScreenState extends State<SearchScreen> {
             return
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Container(
-                  width: 365,
-                  height: 123,
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 16, horizontal: 20),
-                  decoration: BoxDecoration(
-                      color:Color(int.parse('0xFF${colors![Random().nextInt(colors!.length)]}')),
-                      borderRadius: BorderRadius.circular(16)),
-                  child: Text(searchResult[index].title!,style: const TextStyle(fontWeight: FontWeight.w400,fontSize: 25,color: Colors.black),),
+                child: GestureDetector(
+                  onTap: (){
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context){
+                              return NoteDetailScreen(title: searchResult[index].title, body: searchResult[index].body, id: searchResult[index].id);
+                            }
+                        )
+                    );
+                  },
+                  child: Container(
+                    width: 365,
+                    height: 123,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 16, horizontal: 20),
+                    decoration: BoxDecoration(
+                        color:Color(int.parse('0xFF${colors![Random().nextInt(colors!.length)]}')),
+                        borderRadius: BorderRadius.circular(16)),
+                    child: Text(searchResult[index].title!,style: const TextStyle(fontWeight: FontWeight.w400,fontSize: 25,color: Colors.black),),
+                  ),
                 ),
               );
           }):SingleChildScrollView(child: noResult)

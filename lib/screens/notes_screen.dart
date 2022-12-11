@@ -26,10 +26,12 @@ class _NotesScreenState extends State<NotesScreen> {
     'B69CFF'
   ];
 
-  @override
+ @override
   void initState() {
     super.initState();
-    setState(() {});
+    setState(() {
+
+    });
   }
 
   MyDataBase myDataBase = MyDataBase();
@@ -71,7 +73,13 @@ class _NotesScreenState extends State<NotesScreen> {
                   color:const Color(0xff3B3B3B),
                   borderRadius: BorderRadius.circular(12)
               ),
-              child:const Icon(Icons.info_outline),
+              child:GestureDetector(
+                onTap: (){
+                  setState(() {
+
+                  });
+                },
+                  child: const Icon(Icons.refresh)),
             ),
           ),
         ],
@@ -89,13 +97,13 @@ class _NotesScreenState extends State<NotesScreen> {
                   return const Center(
                     child: Text('Error no connection'),
                   );
-                  break;
+
                 case ConnectionState.waiting:
                 case ConnectionState.active:
-                  const Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
-                  break;
+
                 case ConnectionState.done:
                   if (snapshot.hasError) {
                     return Center(
@@ -103,7 +111,7 @@ class _NotesScreenState extends State<NotesScreen> {
                     );
                   }
                   if (!snapshot.hasData) {
-                    const Center(
+                    return const Center(
                       child: Text('no data'),
                     );
                   }
